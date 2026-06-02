@@ -167,8 +167,31 @@
       font-weight: 500;
       line-height: 1.1;
       letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       font-variation-settings: "opsz" 144, "SOFT" 50;
+    }
+
+    .hero-quote {
+      margin: 0 0 1.5rem;
+      padding: 0.15rem 0 0.15rem 1rem;
+      border-left: 2px solid var(--border);
+    }
+
+    .hero-quote p {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-quote cite {
+      font-family: var(--font-mono);
+      font-style: normal;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.5px;
     }
 
     .lede {
@@ -422,6 +445,67 @@
       gap: 1rem;
     }
 
+    /* ---- Obsessions widget ---- */
+    .obsession-display {
+      margin: 1.25rem 0 1rem;
+      padding: 1.75rem 1.5rem;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      text-align: center;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .obsession-year {
+      font-family: var(--font-mono);
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .obsession-body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.45;
+      color: var(--text-secondary);
+      font-style: italic;
+      max-width: 28rem;
+      margin: 0 auto;
+    }
+
+    .obsession-shake {
+      align-self: center;
+      padding: 0.55rem 1.4rem;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .obsession-shake:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+
+    .obsession-display.flash {
+      animation: obsession-flash 0.35s ease;
+    }
+
+    @keyframes obsession-flash {
+      0% { opacity: 0.25; transform: translateY(3px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
     /* ---- Responsive ---- */
     @media (max-width: 540px) {
       .timeline,
@@ -491,6 +575,10 @@
         <div>
           <p class="eyebrow">CURRENTLY IN NASHVILLE</p>
           <h1>Matt Everard</h1>
+          <blockquote class="hero-quote">
+            <p>&ldquo;I have already lost touch with a couple of people I used to be.&rdquo;</p>
+            <cite>Joan Didion</cite>
+          </blockquote>
           <p class="lede">Pragmatist. Engineer who studied theology. I've held twenty-some jobs, led global transformations at banks and pharma, raised two sons in Vancouver, and now build AI tools for product engineers.</p>
           <p class="lede-sub">Any job that involves customer engagement and creative problem-solving makes my tail wag.</p>
         </div>
@@ -648,9 +736,63 @@
       </div>
     </section>
 
-    <section id="contact">
+    <section id="obsessions">
       <div class="section-head">
         <span class="section-num">06</span>
+        <h2>Obsessions</h2>
+      </div>
+      <p>Different year, different rabbit hole. Shake to roll.</p>
+
+      <div class="obsession-display" id="obsession-display">
+        <div class="obsession-year" id="obsession-year">2017</div>
+        <div class="obsession-body" id="obsession-body">Scuba diving on a liveaboard in the Andamans.</div>
+      </div>
+
+      <div style="text-align: center;">
+        <button class="obsession-shake" id="obsession-shake" type="button">Shake</button>
+      </div>
+
+      <script>
+        (function () {
+          var entries = [
+            { year: 1986, body: "BMX dirt jumps in the Columbus suburbs." },
+            { year: 1992, body: "Calculus, barely, on Battelle Scholar pace." },
+            { year: 1995, body: "The first three weeks of theology grad school in Chicago." },
+            { year: 1999, body: "Building intranets nobody wanted at ATGi." },
+            { year: 2002, body: "Surviving the dot-com bust." },
+            { year: 2006, body: "Blogging. Three at once, all about agile." },
+            { year: 2008, body: "Snowboarding the BC backcountry." },
+            { year: 2013, body: "Skiing Whistler off-piste." },
+            { year: 2015, body: "Conversational Hindi in Pune." },
+            { year: 2017, body: "Scuba diving on a liveaboard in the Andamans." },
+            { year: 2019, body: "Cycle touring Vietnam, end to end." },
+            { year: 2020, body: "Sourdough, like everyone." },
+            { year: 2022, body: "Becoming a global nomad." },
+            { year: 2024, body: "Claude Code and the death of yak shaving." },
+            { year: 2026, body: "Powerlifting toward 405." }
+          ];
+          var yearEl = document.getElementById('obsession-year');
+          var bodyEl = document.getElementById('obsession-body');
+          var displayEl = document.getElementById('obsession-display');
+          var btn = document.getElementById('obsession-shake');
+          var last = -1;
+          btn.addEventListener('click', function () {
+            var i;
+            do { i = Math.floor(Math.random() * entries.length); } while (i === last && entries.length > 1);
+            last = i;
+            yearEl.textContent = entries[i].year;
+            bodyEl.textContent = entries[i].body;
+            displayEl.classList.remove('flash');
+            void displayEl.offsetWidth;
+            displayEl.classList.add('flash');
+          });
+        })();
+      </script>
+    </section>
+
+    <section id="contact">
+      <div class="section-head">
+        <span class="section-num">07</span>
         <h2>Get in touch</h2>
       </div>
       <p>I'm easy to reach. Email is best. If our paths might cross, I'm always up for coffee.</p>
@@ -662,7 +804,7 @@
     <footer>
       <div class="footer-meta">
         <span>© 2026 Matt Everard</span>
-        <span>last updated 2026.05.29</span>
+        <span>last updated 2026.06.02</span>
       </div>
     </footer>
 
