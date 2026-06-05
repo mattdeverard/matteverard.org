@@ -194,6 +194,20 @@
       letter-spacing: 0.5px;
     }
 
+    .board-quote {
+      margin: 2.5rem 0 0;
+    }
+
+    .board-quote img {
+      display: block;
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+    }
+
     .lede {
       font-family: var(--font-body);
       font-size: clamp(1.1rem, 2.5vw, 1.2rem);
@@ -576,10 +590,10 @@
           <p class="eyebrow">CURRENTLY IN NASHVILLE</p>
           <h1>Matt Everard</h1>
           <blockquote class="hero-quote">
-            <p>&ldquo;I have already lost touch with a couple of people I used to be.&rdquo;</p>
-            <cite>Joan Didion</cite>
+            <p>&ldquo;You can outsource your thinking, but you can&rsquo;t outsource your understanding.&rdquo;</p>
+            <cite>Andrej Karpathy</cite>
           </blockquote>
-          <p class="lede">Pragmatist. Engineer who studied theology. I've held twenty-some jobs, led global transformations at banks and pharma, raised two sons in Vancouver, and now build AI tools for product engineers.</p>
+          <p class="lede">Pragmatist. Engineer who studied theology. Twenty-some jobs and global transformations at banks and pharma taught me how real work changes. Now I'm all in on the steepest part of that curve: helping companies and the people inside them ride the hockey-stick shift AI is bringing to the workforce.</p>
           <p class="lede-sub">Any job that involves customer engagement and creative problem-solving makes my tail wag.</p>
         </div>
         <img class="hero-avatar" src="matt_headshot_front_masked.png" alt="Portrait of Matt Everard" width="140" height="140">
@@ -705,6 +719,10 @@
           </div>
         </a>
       </div>
+
+      <figure class="board-quote">
+        <img src="feynman-blackboard.png" alt="Chalkboard reading &ldquo;What I cannot create, I do not understand.&rdquo; Richard Feynman" width="1120" height="630" loading="lazy">
+      </figure>
     </section>
 
     <section id="elsewhere">
@@ -755,18 +773,23 @@
       <script>
         (function () {
           var entries = [
-            { year: 1986, body: "BMX dirt jumps in the Columbus suburbs." },
-            { year: 1992, body: "Calculus, barely, on Battelle Scholar pace." },
-            { year: 1995, body: "The first three weeks of theology grad school in Chicago." },
-            { year: 1999, body: "Building intranets nobody wanted at ATGi." },
-            { year: 2002, body: "Surviving the dot-com bust." },
-            { year: 2006, body: "Blogging. Three at once, all about agile." },
-            { year: 2008, body: "Snowboarding the BC backcountry." },
-            { year: 2013, body: "Skiing Whistler off-piste." },
-            { year: 2015, body: "Conversational Hindi in Pune." },
-            { year: 2017, body: "Scuba diving on a liveaboard in the Andamans." },
-            { year: 2019, body: "Cycle touring Vietnam, end to end." },
-            { year: 2020, body: "Sourdough, like everyone." },
+            { year: 1995, body: "Taught myself ancient Greek prior to grad school. Saved $4,000" },
+            { year: 1999, body: "Babies!" },
+            { year: 2000, body: "Home remodeling!" },
+            { year: 2001, body: "Surviving the dot-com bust." },
+            { year: 2002, body: "Getting GSA certified so we can eat." },
+            { year: 2005, body: "VANCOUVER!" },
+            { year: 2006, body: "Hiking. Cycling. Skiing. Kayaking!" },
+            { year: 2008, body: "Snowcamping in the BC backcountry." },
+            { year: 2013, body: "A hard year." },
+            { year: 2015, body: "Learning Hindi in Pune." },
+            { year: 2015, body: "Can big enterprises become nimble?" },
+            { year: 2016, body: "Culture change. At scale" },
+            { year: 2017, body: "Culture shock returning to Vancovuer" },
+            { year: 2018, body: "Cycle touring Thailand. Diving on a liveaboard in the Andamans." },
+            { year: 2019, body: "Cycle touring Vietnam." },
+            { year: 2020, body: "Covid hit. We built a gym." },
+            { year: 2021, body: "Started a bean-to-bar chocolate business." },
             { year: 2022, body: "Becoming a global nomad." },
             { year: 2024, body: "Claude Code and the death of yak shaving." },
             { year: 2026, body: "Powerlifting toward 405." }
