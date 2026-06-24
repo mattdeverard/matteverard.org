@@ -557,6 +557,15 @@
       margin-top: 1px;
     }
 
+    .shelf-ep {
+      color: var(--text-tertiary);
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      margin-top: 3px;
+    }
+
     .shelf-rest {
       display: none;
     }
@@ -1141,7 +1150,7 @@
         <span class="section-num">08</span>
         <h2>Podcasts</h2>
       </div>
-      <p class="shelf-intro">What I actually listen to. <span id="podcast-count">66</span> shows, most recently played first.</p>
+      <p class="shelf-intro">What I actually listen to. <span id="podcast-count">66</span> shows, most recently played first, each with the last episode I caught.</p>
 
       <div id="podcast-recent"></div>
       <div class="shelf-rest" id="podcast-rest"></div>
@@ -1153,77 +1162,78 @@
       <script>
         (function () {
           var shows = [
-            {t:"Acquired",a:"Ben Gilbert and David Rosenthal"},
-            {t:"Armchair Expert with Dax Shepard",a:"Armchair Umbrella"},
-            {t:"Lenny's Podcast: Product | Career | Growth",a:"Lenny Rachitsky"},
-            {t:"This American Life",a:"This American Life"},
-            {t:"Slate Money",a:"Slate Podcasts"},
-            {t:"Political Gabfest",a:"Slate Podcasts"},
-            {t:"Interesting Times with Ross Douthat",a:"New York Times Opinion"},
-            {t:"On the Media",a:"WNYC Studios"},
-            {t:"Big Technology Podcast",a:"Alex Kantrowitz"},
-            {t:"SmartLess",a:"Jason Bateman, Sean Hayes, Will Arnett"},
-            {t:"The Joe Rogan Experience",a:"Joe Rogan"},
-            {t:"Dwarkesh Podcast",a:"Dwarkesh Patel"},
-            {t:"The Ezra Klein Show",a:"New York Times Opinion"},
-            {t:"Cheeky Pint",a:"Stripe"},
-            {t:"Revolutions",a:"Mike Duncan"},
-            {t:"The Idiot",a:"Serial Productions & The New York Times"},
-            {t:"The New Yorker Radio Hour",a:"WNYC Studios and The New Yorker"},
-            {t:"Sharp Tech with Ben Thompson",a:"Andrew Sharp and Ben Thompson"},
-            {t:"The a16z Show",a:"Andreessen Horowitz"},
-            {t:"Search Engine",a:"PJ Vogt"},
-            {t:"Heavyweight",a:"Pushkin Industries"},
-            {t:"The Tim Ferriss Show",a:"Tim Ferriss"},
-            {t:"Huberman Lab",a:"Scicomm Media"},
-            {t:"Fresh Air",a:"NPR"},
-            {t:"Cautionary Tales with Tim Harford",a:"Pushkin Industries"},
-            {t:"Judge John Hodgman",a:"John Hodgman and Maximum Fun"},
-            {t:"AI + a16z",a:"a16z"},
-            {t:"Benjamen Walker's Theory of Everything",a:"Benjamen Walker & Radiotopia"},
-            {t:"Hard Fork",a:"The New York Times"},
-            {t:"The Rich Roll Podcast",a:"Rich Roll"},
-            {t:"Take a Break from Drinking",a:"Rachel Hart"},
-            {t:"99% Invisible",a:"Roman Mars"},
-            {t:"The Rest Is History",a:"Goalhanger"},
-            {t:"NPR Music",a:"NPR"},
-            {t:"The Daily",a:"The New York Times"},
-            {t:"What Trump Can Teach Us About Con Law",a:"Roman Mars"},
-            {t:"HIST 119: The Civil War and Reconstruction Era, 1845-1877",a:"Open Yale Courses - David Blight"},
-            {t:"Amicus With Dahlia Lithwick",a:"Slate Podcasts"},
-            {t:"\"Econ 102\" with Noah Smith and Erik Torenberg",a:"Turpentine"},
-            {t:"Longform",a:"Longform"},
-            {t:"the memory palace",a:"Nate DiMeo"},
-            {t:"Crash Course Pods: The Universe",a:"Crash Course Pods, Complexly"},
-            {t:"Plain English with Derek Thompson",a:"The Ringer"},
-            {t:"Everything is Alive",a:"Radiotopia"},
-            {t:"The Rachman Review",a:"Financial Times"},
-            {t:"Planet Money",a:"NPR"},
-            {t:"The Atlas Obscura Podcast",a:"Stitcher Studios & Atlas Obscura"},
-            {t:"Wild Hearts at Work",a:"Melissa Boggs"},
-            {t:"The Anthropocene Reviewed",a:"Complexly, John Green"},
-            {t:"WTF with Marc Maron Podcast",a:"Marc Maron"},
-            {t:"Articles of Interest",a:"Avery Trufelman"},
-            {t:"What's Your Problem?",a:"iHeartPodcasts and Pushkin Industries"},
-            {t:"Against the Rules with Michael Lewis: The Trial of Sam Bankman-Fried",a:"Pushkin Industries"},
-            {t:"Scene on Radio",a:"Kenan Institute for Ethics at Duke University"},
-            {t:"Ear Hustle",a:"Ear Hustle & Radiotopia"},
-            {t:"Things Fell Apart",a:"BBC Radio 4"},
-            {t:"Radio Diaries",a:"Radio Diaries & Radiotopia"},
-            {t:"So You’ve Been Publicly Shamed by Jon Ronson",a:"BBC Radio 4"},
-            {t:"Unclear and Present Danger",a:"Jamelle Bouie and John Ganz"},
-            {t:"The Matt Walker Podcast",a:"Dr. Matt Walker"},
-            {t:"It's Been a Minute",a:"NPR"},
-            {t:"Song Exploder",a:"Hrishikesh Hirway"},
-            {t:"Throughline",a:"NPR"},
-            {t:"Dangerous Minds with Ed Stafford",a:"OffScript"},
-            {t:"Post Reports",a:"The Washington Post"},
-            {t:"Dolly Parton's America",a:"WNYC Studios & OSM Audio"}
+            {t:"Acquired",a:"Ben Gilbert and David Rosenthal",e:"The Walt Disney Company"},
+            {t:"Armchair Expert with Dax Shepard",a:"Armchair Umbrella",e:"Jimmy Kimmel"},
+            {t:"Lenny's Podcast: Product | Career | Growth",a:"Lenny Rachitsky",e:"What happens after coding is solved? | Fiona Fung"},
+            {t:"This American Life",a:"This American Life",e:"There’s Something About Hail Mary"},
+            {t:"Slate Money",a:"Slate Podcasts",e:"Investing in SpaceX’s Future on Mars"},
+            {t:"Political Gabfest",a:"Slate Podcasts",e:"Another Treaty of Versailles"},
+            {t:"Interesting Times with Ross Douthat",a:"New York Times Opinion",e:"JD Vance on the Morality of the Trump Administration"},
+            {t:"On the Media",a:"WNYC Studios",e:"The UK’s Violent Riots Were Stoked by Elon Musk and a Global Far-Right Network"},
+            {t:"Big Technology Podcast",a:"Alex Kantrowitz",e:"AI Pioneer Geoffrey Hinton: AI Is Conscious, Superintelligence is Coming, And We Should Be Worried"},
+            {t:"SmartLess",a:"Jason Bateman, Sean Hayes, Will Arnett",e:"Bowen Yang"},
+            {t:"The Joe Rogan Experience",a:"Joe Rogan",e:"#2501 - Marc Andreessen"},
+            {t:"Dwarkesh Podcast",a:"Dwarkesh Patel",e:"Andrej Karpathy — AGI is still a decade away"},
+            {t:"The Ezra Klein Show",a:"New York Times Opinion",e:"I Have Some Questions for the Democrats Who Want to Run California"},
+            {t:"Cheeky Pint",a:"Stripe",e:"The history and future of AI at Google, with Sundar Pichai"},
+            {t:"Revolutions",a:"Mike Duncan",e:"Orthodoxy, Autocracy, Nationality"},
+            {t:"The Idiot",a:"Serial Productions & The New York Times",e:"Chapter 3"},
+            {t:"The New Yorker Radio Hour",a:"WNYC Studios and The New Yorker",e:"Is Cuba Trump’s Next Target?"},
+            {t:"Sharp Tech with Ben Thompson",a:"Andrew Sharp and Ben Thompson",e:"Nerding Out with the Neo, Claude and the Integration Question"},
+            {t:"The a16z Show",a:"Andreessen Horowitz",e:"Palantir CEO Alex Karp on the Zero-Sum AI Race"},
+            {t:"Search Engine",a:"PJ Vogt",e:"Odd Lots x Search Engine"},
+            {t:"Heavyweight",a:"Pushkin Industries",e:"Minneapolis"},
+            {t:"The Tim Ferriss Show",a:"Tim Ferriss",e:"#855: How to Quiet the Ruminative Mind"},
+            {t:"Huberman Lab",a:"Scicomm Media",e:"Master the Creative Process | Twyla Tharp"},
+            {t:"Fresh Air",a:"NPR",e:"Patti Smith’s ‘Horses’ Turns 50"},
+            {t:"Cautionary Tales with Tim Harford",a:"Pushkin Industries",e:"On Fire from the Inside - Lethal Injection Up Close with Malcolm Gladwell"},
+            {t:"Judge John Hodgman",a:"John Hodgman and Maximum Fun",e:"Nom de Broom Live in Vancouver"},
+            {t:"AI + a16z",a:"a16z",e:"When Deepfakes Steal $30M: The New Edge of Cybercrime"},
+            {t:"Benjamen Walker's Theory of Everything",a:"Benjamen Walker & Radiotopia",e:"Influencers (second time as Tragedy)"},
+            {t:"Hard Fork",a:"The New York Times",e:"Trump Fights ‘Woke’ A.I. + We Hear Out Our Critics"},
+            {t:"The Rich Roll Podcast",a:"Rich Roll",e:"The Metrics That Matter: Whoop Founder Will Ahmed"},
+            {t:"Take a Break from Drinking",a:"Rachel Hart",e:"Would You Still Drink If It Wasn’t Fancy?"},
+            {t:"99% Invisible",a:"Roman Mars",e:"I've Got 1099 Problems..."},
+            {t:"The Rest Is History",a:"Goalhanger",e:"The Golden Age of Japan: Secrets of the Imperial Court (Part 2)"},
+            {t:"NPR Music",a:"NPR",e:"Alt.Latino: A Latin Jazz survey, plus Ca7riel & Paco Amoroso"},
+            {t:"The Daily",a:"The New York Times",e:"From Serial: ‘The Good Whale’"},
+            {t:"What Trump Can Teach Us About Con Law",a:"Roman Mars",e:"Enemy Aliens"},
+            {t:"HIST 119: The Civil War and Reconstruction Era, 1845-1877",a:"Open Yale Courses - David Blight",e:"Lecture 15 - Lincoln, Leadership, and Race: Emancipation as Policy"},
+            {t:"Amicus With Dahlia Lithwick",a:"Slate Podcasts",e:"The Chief Justice Tips His Hand"},
+            {t:"\"Econ 102\" with Noah Smith and Erik Torenberg",a:"Turpentine",e:"Fracking, China, Immigration"},
+            {t:"Longform",a:"Longform",e:"Episode 226: Terry Gross"},
+            {t:"the memory palace",a:"Nate DiMeo",e:"A White Horse"},
+            {t:"Crash Course Pods: The Universe",a:"Crash Course Pods, Complexly",e:"Ep. 4: When The Stars Turned On"},
+            {t:"Plain English with Derek Thompson",a:"The Ringer",e:"What Kind of a Superpower Is India Becoming?"},
+            {t:"Everything is Alive",a:"Radiotopia",e:"Louis, Can of Cola"},
+            {t:"The Rachman Review",a:"Financial Times",e:"Is Japan at a turning point?"},
+            {t:"Planet Money",a:"NPR",e:"How unions are stopped before they start"},
+            {t:"The Atlas Obscura Podcast",a:"Stitcher Studios & Atlas Obscura",e:"Robot Saints"},
+            {t:"Wild Hearts at Work",a:"Melissa Boggs",e:"Non-Hierarchical Consulting: David Hawks of Agile Velocity"},
+            {t:"The Anthropocene Reviewed",a:"Complexly, John Green",e:"The Anthropocene Reviewed, Reviewed"},
+            {t:"WTF with Marc Maron Podcast",a:"Marc Maron",e:"Episode 1470 - Hannah Einbinder"},
+            {t:"Articles of Interest",a:"Avery Trufelman",e:"Our Mannequins, Ourselves"},
+            {t:"What's Your Problem?",a:"iHeartPodcasts and Pushkin Industries",e:"Spotting Wildfires with AI"},
+            {t:"Against the Rules with Michael Lewis: The Trial of Sam Bankman-Fried",a:"Pushkin Industries",e:"On Background: The Political Spender America Deserves"},
+            {t:"Scene on Radio",a:"Kenan Institute for Ethics at Duke University",e:"\"The Excess of Democracy\": Rebroadcast"},
+            {t:"Ear Hustle",a:"Ear Hustle & Radiotopia",e:"The Preacher"},
+            {t:"Things Fell Apart",a:"BBC Radio 4",e:"S1. Ep 2: Dirty Books"},
+            {t:"Radio Diaries",a:"Radio Diaries & Radiotopia",e:"The Girls of the Leesburg Stockade"},
+            {t:"So You’ve Been Publicly Shamed by Jon Ronson",a:"BBC Radio 4",e:"Episode 1"},
+            {t:"Unclear and Present Danger",a:"Jamelle Bouie and John Ganz",e:"Drop Zone (feat. Soraya Roberts)"},
+            {t:"The Matt Walker Podcast",a:"Dr. Matt Walker",e:"#43 - Sleep and Kids Pt. 1"},
+            {t:"It's Been a Minute",a:"NPR",e:"Vampires are hot, y'all"},
+            {t:"Song Exploder",a:"Hrishikesh Hirway",e:"Book Exploder: Carmen Maria Machado - In the Dream House"},
+            {t:"Throughline",a:"NPR",e:"Nikole Hannah-Jones and the Country We Have (2021)"},
+            {t:"Dangerous Minds with Ed Stafford",a:"OffScript",e:"Episode 1: Joe Simpson"},
+            {t:"Post Reports",a:"The Washington Post",e:"Ending the forever war?"},
+            {t:"Dolly Parton's America",a:"WNYC Studios & OSM Audio",e:"Tennessee Mountain Trance"}
           ];
 
           function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
           function row(b){
             return '<div class="shelf-row"><div class="shelf-title">' + esc(b.t) +
+              '</div><div class="shelf-ep">' + esc(b.e) +
               '</div><div class="shelf-author">' + esc(b.a) + '</div></div>';
           }
 
