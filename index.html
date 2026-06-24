@@ -194,6 +194,19 @@
       letter-spacing: 0.5px;
     }
 
+    .hero-quote {
+      cursor: pointer;
+    }
+
+    .hero-quote.fade {
+      animation: quote-fade 0.4s ease;
+    }
+
+    @keyframes quote-fade {
+      0% { opacity: 0.15; transform: translateY(2px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
     .board-quote {
       margin: 2.5rem 0 0;
     }
@@ -650,15 +663,41 @@
         <div>
           <p class="eyebrow">CURRENTLY IN NASHVILLE</p>
           <h1>Matt Everard</h1>
-          <blockquote class="hero-quote">
-            <p>&ldquo;You can outsource your thinking, but you can&rsquo;t outsource your understanding.&rdquo;</p>
-            <cite>Andrej Karpathy</cite>
+          <blockquote class="hero-quote" id="hero-quote" title="Click for another">
+            <p id="hero-quote-text">&ldquo;You can outsource your thinking, but you can&rsquo;t outsource your understanding.&rdquo;</p>
+            <cite id="hero-quote-cite">Andrej Karpathy</cite>
           </blockquote>
-          <p class="lede">I build AI tools for product engineers and help companies put AI to real use. The way work gets done is changing fast.</p>
+          <p class="lede">I build AI tools for product engineers and help companies put AI to use. The way work gets done is changing fast.</p>
         </div>
         <img class="hero-avatar" src="matt_headshot_front_masked.png" alt="Portrait of Matt Everard" width="140" height="140">
       </div>
     </header>
+
+    <script>
+      (function () {
+        var quotes = [
+          { q: "You can outsource your thinking, but you can’t outsource your understanding.", who: "Andrej Karpathy" },
+          { q: "The cave you fear contains the treasure you seek.", who: "Lenny Rachitsky" },
+          { q: "I’ve already lost touch with a few of the people I used to be.", who: "Joan Didion" }
+        ];
+        var textEl = document.getElementById('hero-quote-text');
+        var citeEl = document.getElementById('hero-quote-cite');
+        var box = document.getElementById('hero-quote');
+        var i = 0, timer;
+        function show(n) {
+          i = (n + quotes.length) % quotes.length;
+          textEl.innerHTML = '“' + quotes[i].q + '”';
+          citeEl.textContent = quotes[i].who;
+          box.classList.remove('fade');
+          void box.offsetWidth;
+          box.classList.add('fade');
+        }
+        function next() { show(i + 1); }
+        function start() { timer = setInterval(next, 6000); }
+        box.addEventListener('click', function () { clearInterval(timer); next(); start(); });
+        start();
+      })();
+    </script>
 
     <section id="about">
       <div class="section-head">
@@ -1102,70 +1141,84 @@
         <span class="section-num">08</span>
         <h2>Podcasts</h2>
       </div>
-      <p class="shelf-intro">What's in my feed. <span id="podcast-count">52</span> shows I follow, most recently added first.</p>
+      <p class="shelf-intro">What I actually listen to. <span id="podcast-count">66</span> shows, most recently played first.</p>
 
       <div id="podcast-recent"></div>
       <div class="shelf-rest" id="podcast-rest"></div>
       <button class="shelf-toggle" id="podcast-toggle" type="button" aria-expanded="false" aria-controls="podcast-rest">
         <span class="shelf-toggle-arrow">&#x2193;</span>
-        <span class="shelf-toggle-label">Show all 52</span>
+        <span class="shelf-toggle-label">Show all 66</span>
       </button>
 
       <script>
         (function () {
           var shows = [
-            {t:"The Most Interesting Thing in AI",a:"Atlantic Re:think"},
-            {t:"The Aboard Podcast",a:"Aboard"},
+            {t:"Acquired",a:"Ben Gilbert and David Rosenthal"},
             {t:"Armchair Expert with Dax Shepard",a:"Armchair Umbrella"},
-            {t:"Dwarkesh Podcast",a:"Dwarkesh Patel"},
-            {t:"Cheeky Pint",a:"Stripe"},
-            {t:"The Long Game with Jake Sullivan and Jon Finer",a:"Vox Media Podcast Network"},
-            {t:"ACQ2 by Acquired",a:"Ben Gilbert and David Rosenthal"},
-            {t:"Sharp Tech with Ben Thompson",a:"Andrew Sharp and Ben Thompson"},
             {t:"Lenny's Podcast: Product | Career | Growth",a:"Lenny Rachitsky"},
-            {t:"AI + a16z",a:"a16z"},
-            {t:"The a16z Show",a:"Andreessen Horowitz"},
+            {t:"This American Life",a:"This American Life"},
+            {t:"Slate Money",a:"Slate Podcasts"},
+            {t:"Political Gabfest",a:"Slate Podcasts"},
             {t:"Interesting Times with Ross Douthat",a:"New York Times Opinion"},
-            {t:"All the Hacks: Money, Points & Life",a:"Chris Hutchins"},
-            {t:"AI & I",a:"Dan Shipper"},
-            {t:"The Duncan & Coe History Show",a:"Duncan & Coe"},
-            {t:"Question Everything",a:"Brian Reed"},
-            {t:"10% Happier with Dan Harris",a:"10% Happier"},
-            {t:"Google DeepMind: The Podcast",a:"Hannah Fry"},
-            {t:"Shell Game",a:"Kaleidoscope"},
+            {t:"On the Media",a:"WNYC Studios"},
+            {t:"Big Technology Podcast",a:"Alex Kantrowitz"},
+            {t:"SmartLess",a:"Jason Bateman, Sean Hayes, Will Arnett"},
+            {t:"The Joe Rogan Experience",a:"Joe Rogan"},
+            {t:"Dwarkesh Podcast",a:"Dwarkesh Patel"},
+            {t:"The Ezra Klein Show",a:"New York Times Opinion"},
+            {t:"Cheeky Pint",a:"Stripe"},
+            {t:"Revolutions",a:"Mike Duncan"},
+            {t:"The Idiot",a:"Serial Productions & The New York Times"},
+            {t:"The New Yorker Radio Hour",a:"WNYC Studios and The New Yorker"},
+            {t:"Sharp Tech with Ben Thompson",a:"Andrew Sharp and Ben Thompson"},
+            {t:"The a16z Show",a:"Andreessen Horowitz"},
+            {t:"Search Engine",a:"PJ Vogt"},
+            {t:"Heavyweight",a:"Pushkin Industries"},
+            {t:"The Tim Ferriss Show",a:"Tim Ferriss"},
+            {t:"Huberman Lab",a:"Scicomm Media"},
+            {t:"Fresh Air",a:"NPR"},
+            {t:"Cautionary Tales with Tim Harford",a:"Pushkin Industries"},
+            {t:"Judge John Hodgman",a:"John Hodgman and Maximum Fun"},
+            {t:"AI + a16z",a:"a16z"},
+            {t:"Benjamen Walker's Theory of Everything",a:"Benjamen Walker & Radiotopia"},
+            {t:"Hard Fork",a:"The New York Times"},
+            {t:"The Rich Roll Podcast",a:"Rich Roll"},
+            {t:"Take a Break from Drinking",a:"Rachel Hart"},
+            {t:"99% Invisible",a:"Roman Mars"},
+            {t:"The Rest Is History",a:"Goalhanger"},
+            {t:"NPR Music",a:"NPR"},
+            {t:"The Daily",a:"The New York Times"},
+            {t:"What Trump Can Teach Us About Con Law",a:"Roman Mars"},
+            {t:"HIST 119: The Civil War and Reconstruction Era, 1845-1877",a:"Open Yale Courses - David Blight"},
             {t:"Amicus With Dahlia Lithwick",a:"Slate Podcasts"},
             {t:"\"Econ 102\" with Noah Smith and Erik Torenberg",a:"Turpentine"},
-            {t:"Big Technology Podcast",a:"Alex Kantrowitz"},
-            {t:"Acquired",a:"Ben Gilbert and David Rosenthal"},
-            {t:"Understanding AI article audio",a:"Timothy B Lee"},
-            {t:"The Rest Is History",a:"Goalhanger"},
-            {t:"Serial",a:"Serial Productions & The New York Times"},
-            {t:"Hard Fork",a:"The New York Times"},
-            {t:"Search Engine",a:"PJ Vogt"},
-            {t:"Dear Hank & John",a:"Complexly"},
-            {t:"Revisionist History",a:"Pushkin Industries"},
-            {t:"The Tim Ferriss Show",a:"Tim Ferriss"},
-            {t:"SmartLess",a:"Jason Bateman, Sean Hayes, Will Arnett"},
-            {t:"Judge John Hodgman",a:"John Hodgman and Maximum Fun"},
-            {t:"Radio Diaries",a:"Radio Diaries & Radiotopia"},
-            {t:"Revolutions",a:"Mike Duncan"},
-            {t:"The Ezra Klein Show",a:"New York Times Opinion"},
-            {t:"On the Media",a:"WNYC Studios"},
-            {t:"Cautionary Tales with Tim Harford",a:"Pushkin Industries"},
-            {t:"What Trump Can Teach Us About Con Law",a:"Roman Mars"},
-            {t:"Ear Hustle",a:"Ear Hustle & Radiotopia"},
+            {t:"Longform",a:"Longform"},
             {t:"the memory palace",a:"Nate DiMeo"},
-            {t:"Song Exploder",a:"Hrishikesh Hirway"},
-            {t:"Scene on Radio",a:"Kenan Institute for Ethics at Duke University"},
-            {t:"NPR Music",a:"NPR"},
-            {t:"This American Life",a:"This American Life"},
-            {t:"The Treatment",a:"KCRW"},
-            {t:"99% Invisible",a:"Roman Mars"},
+            {t:"Crash Course Pods: The Universe",a:"Crash Course Pods, Complexly"},
+            {t:"Plain English with Derek Thompson",a:"The Ringer"},
+            {t:"Everything is Alive",a:"Radiotopia"},
+            {t:"The Rachman Review",a:"Financial Times"},
+            {t:"Planet Money",a:"NPR"},
+            {t:"The Atlas Obscura Podcast",a:"Stitcher Studios & Atlas Obscura"},
+            {t:"Wild Hearts at Work",a:"Melissa Boggs"},
+            {t:"The Anthropocene Reviewed",a:"Complexly, John Green"},
             {t:"WTF with Marc Maron Podcast",a:"Marc Maron"},
-            {t:"Political Gabfest",a:"Slate Podcasts"},
-            {t:"Slate Money",a:"Slate Podcasts"},
-            {t:"Heavyweight",a:"Pushkin Industries"},
-            {t:"The New Yorker Radio Hour",a:"WNYC Studios and The New Yorker"}
+            {t:"Articles of Interest",a:"Avery Trufelman"},
+            {t:"What's Your Problem?",a:"iHeartPodcasts and Pushkin Industries"},
+            {t:"Against the Rules with Michael Lewis: The Trial of Sam Bankman-Fried",a:"Pushkin Industries"},
+            {t:"Scene on Radio",a:"Kenan Institute for Ethics at Duke University"},
+            {t:"Ear Hustle",a:"Ear Hustle & Radiotopia"},
+            {t:"Things Fell Apart",a:"BBC Radio 4"},
+            {t:"Radio Diaries",a:"Radio Diaries & Radiotopia"},
+            {t:"So You’ve Been Publicly Shamed by Jon Ronson",a:"BBC Radio 4"},
+            {t:"Unclear and Present Danger",a:"Jamelle Bouie and John Ganz"},
+            {t:"The Matt Walker Podcast",a:"Dr. Matt Walker"},
+            {t:"It's Been a Minute",a:"NPR"},
+            {t:"Song Exploder",a:"Hrishikesh Hirway"},
+            {t:"Throughline",a:"NPR"},
+            {t:"Dangerous Minds with Ed Stafford",a:"OffScript"},
+            {t:"Post Reports",a:"The Washington Post"},
+            {t:"Dolly Parton's America",a:"WNYC Studios & OSM Audio"}
           ];
 
           function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
