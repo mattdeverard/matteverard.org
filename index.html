@@ -520,6 +520,65 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
+    /* ---- Bookshelf ---- */
+    .shelf-intro {
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    .shelf-row {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .shelf-title {
+      color: var(--text);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .shelf-author {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      line-height: 1.45;
+      margin-top: 1px;
+    }
+
+    .shelf-rest {
+      display: none;
+    }
+
+    .shelf-rest.open {
+      display: block;
+    }
+
+    .shelf-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 1.1rem;
+      padding: 0.7rem 0;
+      background: none;
+      border: none;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      color: var(--accent);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .shelf-toggle:hover .shelf-toggle-label {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .shelf-toggle-arrow {
+      font-size: 12px;
+    }
+
     /* ---- Responsive ---- */
     @media (max-width: 540px) {
       .timeline,
@@ -580,6 +639,8 @@
         <a href="#writing">Writing</a>
         <a href="#projects">Projects</a>
         <a href="#elsewhere">Elsewhere</a>
+        <a href="#bookshelf">Bookshelf</a>
+        <a href="#podcasts">Podcasts</a>
         <a href="#contact">Contact</a>
       </div>
     </nav>
@@ -781,9 +842,8 @@
             { year: 2006, body: "Hiking. Cycling. Skiing. Kayaking!" },
             { year: 2008, body: "Snowcamping in the BC backcountry." },
             { year: 2013, body: "A hard year." },
-            { year: 2015, body: "Learning Hindi in Pune." },
-            { year: 2015, body: "Can big enterprises become nimble?" },
-            { year: 2016, body: "Culture change. At scale" },
+            { year: 2015, body: "Everything India - food, history, geography, cultures, languages" },
+            { year: 2016, body: "More India - Andamans, Himalayas, Goa, Delhi, Bangalore, Hyderabad" },
             { year: 2017, body: "Culture shock returning to Vancouver" },
             { year: 2018, body: "Cycle touring Thailand. Diving on a liveaboard in the Andamans." },
             { year: 2019, body: "Living in SF. Cycle touring Vietnam." },
@@ -800,9 +860,21 @@
           var displayEl = document.getElementById('obsession-display');
           var btn = document.getElementById('obsession-shake');
           var last = -1;
+          var queue = [];
+          function refill() {
+            queue = entries.map(function (_, idx) { return idx; });
+            for (var j = queue.length - 1; j > 0; j--) {
+              var k = Math.floor(Math.random() * (j + 1));
+              var tmp = queue[j]; queue[j] = queue[k]; queue[k] = tmp;
+            }
+            // avoid a back-to-back repeat across deck refills
+            if (queue.length > 1 && queue[0] === last) {
+              queue.push(queue.shift());
+            }
+          }
           btn.addEventListener('click', function () {
-            var i;
-            do { i = Math.floor(Math.random() * entries.length); } while (i === last && entries.length > 1);
+            if (queue.length === 0) { refill(); }
+            var i = queue.shift();
             last = i;
             yearEl.textContent = entries[i].year;
             bodyEl.textContent = entries[i].body;
@@ -814,9 +886,316 @@
       </script>
     </section>
 
-    <section id="contact">
+    <section id="bookshelf">
       <div class="section-head">
         <span class="section-num">07</span>
+        <h2>Bookshelf</h2>
+      </div>
+      <p class="shelf-intro">Mostly nonfiction, taken in on long rides and longer walks. <span id="shelf-count">170</span> audiobooks since 2012, newest first.</p>
+
+      <div id="shelf-recent"></div>
+      <div class="shelf-rest" id="shelf-rest"></div>
+      <button class="shelf-toggle" id="shelf-toggle" type="button" aria-expanded="false" aria-controls="shelf-rest">
+        <span class="shelf-toggle-arrow">&#x2193;</span>
+        <span class="shelf-toggle-label">Show all 170</span>
+      </button>
+
+      <script>
+        (function () {
+          var shelf = [
+            {d:"2026.06.19",t:"The Stimulated Mind",a:"Tommy Wood"},
+            {d:"2026.04.28",t:"Empire of the Summer Moon",a:"S. C. Gwynne"},
+            {d:"2025.12.26",t:"Pattern Breakers",a:"Mike Maples Jr, Peter Ziebelman"},
+            {d:"2025.09.12",t:"The Hard Thing About Hard Things",a:"Ben Horowitz"},
+            {d:"2025.08.02",t:"Everything Is Tuberculosis",a:"John Green"},
+            {d:"2025.08.02",t:"Tribe of Mentors",a:"Tim Ferriss"},
+            {d:"2025.03.01",t:"Switch",a:"Chip Heath, Dan Heath"},
+            {d:"2025.02.26",t:"Change the Culture, Change the Game",a:"Roger Connors, Tom Smith"},
+            {d:"2025.02.22",t:"Hero of Two Worlds",a:"Mike Duncan"},
+            {d:"2025.02.22",t:"Effortless Japan Travel",a:"Robbin Allen"},
+            {d:"2025.02.05",t:"How to Win at Travel",a:"Brian Kelly"},
+            {d:"2025.01.01",t:"Open",a:"Andre Agassi"},
+            {d:"2024.10.30",t:"Waking Up",a:"Sam Harris"},
+            {d:"2024.10.24",t:"10% Happier Revised Edition",a:"Dan Harris"},
+            {d:"2024.10.07",t:"AI Snake Oil",a:"Sayash Kapoor, Arvind Narayanan"},
+            {d:"2024.09.19",t:"Chip War",a:"Chris Miller"},
+            {d:"2024.08.02",t:"Team Topologies: Organizing Business and Technology Teams for Fast Flow",a:"Matthew Skelton, Manuel Pais"},
+            {d:"2024.07.03",t:"Leading with the Heart",a:"Mike Krzyzewski, Donald T. Phillips"},
+            {d:"2024.04.14",t:"A Brief History of Intelligence",a:"Max S. Bennett"},
+            {d:"2024.04.13",t:"The Coming Wave",a:"Mustafa Suleyman, Michael Bhaskar"},
+            {d:"2024.04.06",t:"Co-Intelligence",a:"Ethan Mollick"},
+            {d:"2024.02.20",t:"Supercommunicators",a:"Charles Duhigg"},
+            {d:"2024.01.21",t:"Master of Change",a:"Brad Stulberg"},
+            {d:"2023.11.30",t:"Pinnacle",a:"Steve Preda, Gregory Cleary"},
+            {d:"2023.09.16",t:"The Hardest Job in the World",a:"John Dickerson"},
+            {d:"2023.06.09",t:"Clearing the Fog",a:"James C. Jackson PsyD"},
+            {d:"2023.04.01",t:"Man’s Search for Himself",a:"Rollo May"},
+            {d:"2023.04.01",t:"For Profit",a:"William Magnuson"},
+            {d:"2023.03.10",t:"Faith Doesn't Erase Grief",a:"Kate Meyer"},
+            {d:"2023.02.13",t:"The OKRs Field Book",a:"Ben Lamorte"},
+            {d:"2023.01.28",t:"The Mind of a Bee",a:"Lars Chittka"},
+            {d:"2022.11.23",t:"The Song of the Cell",a:"Siddhartha Mukherjee"},
+            {d:"2022.10.30",t:"Two Wheels Good",a:"Jody Rosen"},
+            {d:"2022.10.25",t:"The Anthropocene Reviewed",a:"John Green"},
+            {d:"2022.10.12",t:"An Immense World",a:"Ed Yong"},
+            {d:"2022.10.03",t:"Driven",a:"Douglas Brackmann PhD, Randy Kelley"},
+            {d:"2022.06.08",t:"The Experience of Insight",a:"Joseph Goldstein"},
+            {d:"2022.04.12",t:"Bittersweet",a:"Susan Cain"},
+            {d:"2022.01.14",t:"The Roots of Buddhist Psychology",a:"Jack Kornfield"},
+            {d:"2021.10.17",t:"Where the Deer and the Antelope Play",a:"Nick Offerman"},
+            {d:"2021.08.17",t:"In Love with the World",a:"Yongey Mingyur Rinpoche, Helen Tworkov"},
+            {d:"2021.08.17",t:"A Swim in a Pond in the Rain",a:"George Saunders"},
+            {d:"2021.07.16",t:"Leaders Eat Last",a:"Simon Sinek"},
+            {d:"2021.07.08",t:"Loonshots",a:"Safi Bahcall"},
+            {d:"2021.07.08",t:"Start with Why",a:"Simon Sinek"},
+            {d:"2021.04.29",t:"The Fire Next Time",a:"James Baldwin"},
+            {d:"2021.04.12",t:"Four Hundred Souls",a:"Ibram X. Kendi, Keisha N. Blain"},
+            {d:"2021.04.03",t:"Let My People Go Surfing",a:"Yvon Chouinard"},
+            {d:"2021.02.27",t:"Four Lost Cities",a:"Annalee Newitz"},
+            {d:"2021.01.04",t:"Money",a:"Jacob Goldstein"},
+            {d:"2020.12.05",t:"The Year Without Pants",a:"Scott Berkun"},
+            {d:"2020.12.04",t:"The Body Keeps the Score",a:"Bessel A. van der Kolk"},
+            {d:"2020.12.01",t:"Becoming",a:"Michelle Obama"},
+            {d:"2020.10.10",t:"The 99% Invisible City",a:"Roman Mars, Kurt Kohlstedt"},
+            {d:"2020.09.09",t:"Reaganland",a:"Rick Perlstein"},
+            {d:"2020.09.09",t:"Caste",a:"Isabel Wilkerson"},
+            {d:"2020.07.18",t:"Co-Active Coaching",a:"Henry Kimsey-House, Karen Kimsey-House, Phillip Sandahl"},
+            {d:"2020.07.14",t:"Man's Search for Meaning",a:"Viktor E. Frankl"},
+            {d:"2020.07.14",t:"How to Be an Antiracist",a:"Ibram X. Kendi"},
+            {d:"2020.06.24",t:"A Way of Being",a:"Carl R. Rogers"},
+            {d:"2020.06.21",t:"Freud",a:"Anthony Storr"},
+            {d:"2020.04.26",t:"The Infinite Game",a:"Simon Sinek"},
+            {d:"2020.04.19",t:"Beyond Good and Evil",a:"Friedrich Nietzsche"},
+            {d:"2020.04.10",t:"I and Thou",a:"Martin Buber"},
+            {d:"2020.04.02",t:"On Becoming a Person",a:"Carl R. Rogers"},
+            {d:"2020.03.28",t:"A Collective Bargain",a:"Jane McAlevey"},
+            {d:"2020.02.19",t:"Nonviolent Communication",a:"Marshall Rosenberg"},
+            {d:"2019.10.31",t:"It Doesn't Have to Be Crazy at Work",a:"Jason Fried, David Heinemeier Hansson"},
+            {d:"2019.10.23",t:"Coaching for Performance, 5th Edition",a:"Sir John Whitmore"},
+            {d:"2019.10.23",t:"The Inner Game of Tennis",a:"W. Timothy Gallwey"},
+            {d:"2019.10.23",t:"Stony the Road",a:"Henry Louis Gates Jr."},
+            {d:"2019.10.21",t:"The Meritocracy Trap",a:"Daniel Markovits"},
+            {d:"2019.10.17",t:"What If?",a:"Randall Munroe"},
+            {d:"2019.10.13",t:"The Water Dancer (Oprah’s Book Club)",a:"Ta-Nehisi Coates"},
+            {d:"2019.10.13",t:"Permanent Record",a:"Edward Snowden"},
+            {d:"2019.10.13",t:"The Body",a:"Bill Bryson"},
+            {d:"2019.09.19",t:"Goliath",a:"Matt Stoller"},
+            {d:"2019.09.16",t:"Why You Should Turn Off Push Notifications Right Now",a:"Dan Ariely"},
+            {d:"2019.08.13",t:"Evicted",a:"Matthew Desmond"},
+            {d:"2019.08.13",t:"Talking to Strangers",a:"Malcolm Gladwell"},
+            {d:"2019.05.25",t:"More Bedtime Stories for Cynics",a:"Aparna Nancherla, Dave Hill, et al."},
+            {d:"2019.04.21",t:"Lab Rats",a:"Dan Lyons"},
+            {d:"2019.02.09",t:"Billion Dollar Whale",a:"Bradley Hope, Tom Wright"},
+            {d:"2019.01.23",t:"Marx: A Very Short Introduction",a:"Peter Singer"},
+            {d:"2018.12.04",t:"Bad Blood",a:"John Carreyrou"},
+            {d:"2018.11.21",t:"The Age of Agile",a:"Stephen Denning"},
+            {d:"2018.11.21",t:"21 Lessons for the 21st Century",a:"Yuval Noah Harari"},
+            {d:"2018.11.21",t:"Thinking in Bets",a:"Annie Duke"},
+            {d:"2018.11.21",t:"The Art of Gathering",a:"Priya Parker"},
+            {d:"2018.10.24",t:"Play",a:"Stuart Brown, Christopher Vaughan MD"},
+            {d:"2018.10.14",t:"Winners Take All",a:"Anand Giridharadas"},
+            {d:"2018.08.28",t:"The Oxygen Advantage",a:"Patrick McKeown"},
+            {d:"2018.08.06",t:"Lafayette in the Somewhat United States",a:"Sarah Vowell"},
+            {d:"2018.08.05",t:"Vacationland",a:"John Hodgman"},
+            {d:"2018.08.02",t:"The Coming Storm",a:"Michael Lewis"},
+            {d:"2018.07.13",t:"Tripping Over the Truth",a:"Travis Christofferson"},
+            {d:"2018.05.07",t:"She Has Her Mother's Laugh",a:"Carl Zimmer"},
+            {d:"2018.05.07",t:"How to Change Your Mind",a:"Michael Pollan"},
+            {d:"2018.04.27",t:"All the Pieces Matter",a:"Jonathan Abrams"},
+            {d:"2018.04.05",t:"Consider the Lobster",a:"David Foster Wallace"},
+            {d:"2018.03.17",t:"The Innovators",a:"Walter Isaacson"},
+            {d:"2018.03.06",t:"Leonardo da Vinci",a:"Walter Isaacson"},
+            {d:"2018.02.03",t:"Grant",a:"Ron Chernow"},
+            {d:"2018.02.03",t:"When: The Scientific Secrets of Perfect Timing",a:"Daniel H. Pink"},
+            {d:"2018.02.02",t:"Enlightenment Now",a:"Steven Pinker"},
+            {d:"2017.11.28",t:"Who Thought This Was a Good Idea?",a:"Alyssa Mastromonaco"},
+            {d:"2017.11.01",t:"Thanks, Obama",a:"David Litt"},
+            {d:"2017.11.01",t:"The Startup Way",a:"Eric Ries"},
+            {d:"2017.10.05",t:"We Were Eight Years in Power",a:"Ta-Nehisi Coates"},
+            {d:"2017.09.30",t:"Creativity, Inc.",a:"Ed Catmull, Amy Wallace"},
+            {d:"2017.09.16",t:"Made to Stick",a:"Chip Heath, Dan Heath"},
+            {d:"2017.08.14",t:"The Awkward Thoughts of W. Kamau Bell",a:"W. Kamau Bell"},
+            {d:"2017.08.12",t:"The Chickenshit Club",a:"Jesse Eisinger"},
+            {d:"2017.08.09",t:"The Butterfly Effect with Jon Ronson",a:"Jon Ronson"},
+            {d:"2017.07.14",t:"Rise of the Robots",a:"Martin Ford"},
+            {d:"2017.06.02",t:"Al Franken, Giant of the Senate",a:"Al Franken"},
+            {d:"2017.05.28",t:"The Upstarts",a:"Brad Stone"},
+            {d:"2017.05.17",t:"Team of Teams",a:"Stanley McChrystal"},
+            {d:"2017.05.03",t:"Option B",a:"Sheryl Sandberg, Adam Grant"},
+            {d:"2017.03.29",t:"Zero Zero Zero",a:"Roberto Saviano"},
+            {d:"2017.03.27",t:"An Astronaut's Guide to Life on Earth",a:"Chris Hadfield"},
+            {d:"2017.03.13",t:"Homo Deus",a:"Yuval Noah Harari"},
+            {d:"2017.02.05",t:"Delivering Happiness",a:"Tony Hsieh"},
+            {d:"2017.02.05",t:"Alibaba",a:"Duncan Clark"},
+            {d:"2017.01.11",t:"Scrappy Little Nobody",a:"Anna Kendrick"},
+            {d:"2016.12.31",t:"Born a Crime",a:"Trevor Noah"},
+            {d:"2016.12.04",t:"Fives and Twenty-Fives",a:"Michael Pitre"},
+            {d:"2016.12.02",t:"The Second Machine Age",a:"Erik Brynjolfsson, Andrew McAfee"},
+            {d:"2016.12.02",t:"The Undoing Project",a:"Michael Lewis"},
+            {d:"2016.11.03",t:"Sapiens",a:"Yuval Noah Harari"},
+            {d:"2016.10.06",t:"The Seventh Sense",a:"Joshua Cooper Ramo"},
+            {d:"2016.10.01",t:"The Inevitable",a:"Kevin Kelly"},
+            {d:"2016.09.25",t:"When Breath Becomes Air",a:"Paul Kalanithi"},
+            {d:"2016.09.24",t:"Platform Revolution",a:"Geoffrey G. Parker, Marshall W. Van Alstyne, Sangeet Paul Choudary"},
+            {d:"2016.07.29",t:"Alexander Hamilton",a:"Ron Chernow"},
+            {d:"2016.07.16",t:"Hamilton: The Revolution",a:"Lin-Manuel Miranda, Jeremy McCarter"},
+            {d:"2016.06.28",t:"The Beautiful Struggle",a:"Ta-Nehisi Coates"},
+            {d:"2016.05.28",t:"The Night of the Gun",a:"David Carr"},
+            {d:"2016.05.21",t:"The Gene",a:"Siddhartha Mukherjee"},
+            {d:"2016.05.01",t:"Smarter Faster Better",a:"Charles Duhigg"},
+            {d:"2016.04.08",t:"Between the World and Me",a:"Ta-Nehisi Coates"},
+            {d:"2016.03.28",t:"The Power of Habit",a:"Charles Duhigg"},
+            {d:"2016.01.28",t:"Elon Musk",a:"Ashlee Vance"},
+            {d:"2015.12.29",t:"Development as Freedom",a:"Amartya Sen"},
+            {d:"2014.12.02",t:"America Again",a:"Stephen Colbert"},
+            {d:"2014.08.20",t:"The Death and Life of Great American Cities",a:"Jane Jacobs"},
+            {d:"2014.07.21",t:"Surely You're Joking, Mr. Feynman!",a:"Richard P. Feynman"},
+            {d:"2014.05.14",t:"Think Like a Freak",a:"Steven D. Levitt, Stephen J. Dubner"},
+            {d:"2014.04.27",t:"Skipping Towards Gomorrah",a:"Dan Savage"},
+            {d:"2014.04.21",t:"Kitchen Confidential",a:"Anthony Bourdain"},
+            {d:"2014.04.01",t:"Undaunted Courage",a:"Stephen E. Ambrose"},
+            {d:"2013.12.10",t:"The Bully Pulpit",a:"Doris Kearns Goodwin"},
+            {d:"2013.11.20",t:"Double Down",a:"Mark Halperin, John Heilemann"},
+            {d:"2013.11.05",t:"One Summer",a:"Bill Bryson"},
+            {d:"2013.10.06",t:"David and Goliath",a:"Malcolm Gladwell"},
+            {d:"2013.09.19",t:"Genghis Khan and the Making of the Modern World",a:"Jack Weatherford"},
+            {d:"2013.07.23",t:"Cooked",a:"Michael Pollan"},
+            {d:"2013.06.04",t:"Let's Explore Diabetes with Owls",a:"David Sedaris"},
+            {d:"2013.05.07",t:"Death by Black Hole",a:"Neil deGrasse Tyson"},
+            {d:"2013.04.23",t:"A Short History of Nearly Everything",a:"Bill Bryson"},
+            {d:"2013.04.09",t:"Gulp",a:"Mary Roach"},
+            {d:"2013.01.25",t:"Einstein",a:"Walter Isaacson"},
+            {d:"2013.01.13",t:"Killing Kennedy",a:"Bill O'Reilly, Martin Dugard"},
+            {d:"2012.12.10",t:"The Adventure of the Blue Carbuncle",a:"Arthur Conan Doyle"},
+            {d:"2012.11.20",t:"The Better Angels of Our Nature",a:"Steven Pinker"},
+            {d:"2012.10.24",t:"Medium Raw",a:"Anthony Bourdain"},
+            {d:"2012.09.08",t:"Life",a:"Keith Richards, James Fox"}
+          ];
+
+          function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+          function row(b){
+            return '<div class="shelf-row"><div class="shelf-title">' + esc(b.t) +
+              '</div><div class="shelf-author">' + esc(b.a) + '</div></div>';
+          }
+
+          document.getElementById('shelf-count').textContent = shelf.length;
+          document.getElementById('shelf-recent').innerHTML = shelf.slice(0, 3).map(row).join('');
+          document.getElementById('shelf-rest').innerHTML = shelf.slice(3).map(row).join('');
+
+          var rest = document.getElementById('shelf-rest');
+          var btn = document.getElementById('shelf-toggle');
+          var label = btn.querySelector('.shelf-toggle-label');
+          var arrow = btn.querySelector('.shelf-toggle-arrow');
+          label.textContent = 'Show all ' + shelf.length;
+          btn.addEventListener('click', function () {
+            var open = rest.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            label.textContent = open ? 'Show fewer' : 'Show all ' + shelf.length;
+            arrow.innerHTML = open ? '&#x2191;' : '&#x2193;';
+          });
+        })();
+      </script>
+    </section>
+
+    <section id="podcasts">
+      <div class="section-head">
+        <span class="section-num">08</span>
+        <h2>Podcasts</h2>
+      </div>
+      <p class="shelf-intro">What's in my feed. <span id="podcast-count">52</span> shows I follow, most recently added first.</p>
+
+      <div id="podcast-recent"></div>
+      <div class="shelf-rest" id="podcast-rest"></div>
+      <button class="shelf-toggle" id="podcast-toggle" type="button" aria-expanded="false" aria-controls="podcast-rest">
+        <span class="shelf-toggle-arrow">&#x2193;</span>
+        <span class="shelf-toggle-label">Show all 52</span>
+      </button>
+
+      <script>
+        (function () {
+          var shows = [
+            {t:"The Most Interesting Thing in AI",a:"Atlantic Re:think"},
+            {t:"The Aboard Podcast",a:"Aboard"},
+            {t:"Armchair Expert with Dax Shepard",a:"Armchair Umbrella"},
+            {t:"Dwarkesh Podcast",a:"Dwarkesh Patel"},
+            {t:"Cheeky Pint",a:"Stripe"},
+            {t:"The Long Game with Jake Sullivan and Jon Finer",a:"Vox Media Podcast Network"},
+            {t:"ACQ2 by Acquired",a:"Ben Gilbert and David Rosenthal"},
+            {t:"Sharp Tech with Ben Thompson",a:"Andrew Sharp and Ben Thompson"},
+            {t:"Lenny's Podcast: Product | Career | Growth",a:"Lenny Rachitsky"},
+            {t:"AI + a16z",a:"a16z"},
+            {t:"The a16z Show",a:"Andreessen Horowitz"},
+            {t:"Interesting Times with Ross Douthat",a:"New York Times Opinion"},
+            {t:"All the Hacks: Money, Points & Life",a:"Chris Hutchins"},
+            {t:"AI & I",a:"Dan Shipper"},
+            {t:"The Duncan & Coe History Show",a:"Duncan & Coe"},
+            {t:"Question Everything",a:"Brian Reed"},
+            {t:"10% Happier with Dan Harris",a:"10% Happier"},
+            {t:"Google DeepMind: The Podcast",a:"Hannah Fry"},
+            {t:"Shell Game",a:"Kaleidoscope"},
+            {t:"Amicus With Dahlia Lithwick",a:"Slate Podcasts"},
+            {t:"\"Econ 102\" with Noah Smith and Erik Torenberg",a:"Turpentine"},
+            {t:"Big Technology Podcast",a:"Alex Kantrowitz"},
+            {t:"Acquired",a:"Ben Gilbert and David Rosenthal"},
+            {t:"Understanding AI article audio",a:"Timothy B Lee"},
+            {t:"The Rest Is History",a:"Goalhanger"},
+            {t:"Serial",a:"Serial Productions & The New York Times"},
+            {t:"Hard Fork",a:"The New York Times"},
+            {t:"Search Engine",a:"PJ Vogt"},
+            {t:"Dear Hank & John",a:"Complexly"},
+            {t:"Revisionist History",a:"Pushkin Industries"},
+            {t:"The Tim Ferriss Show",a:"Tim Ferriss"},
+            {t:"SmartLess",a:"Jason Bateman, Sean Hayes, Will Arnett"},
+            {t:"Judge John Hodgman",a:"John Hodgman and Maximum Fun"},
+            {t:"Radio Diaries",a:"Radio Diaries & Radiotopia"},
+            {t:"Revolutions",a:"Mike Duncan"},
+            {t:"The Ezra Klein Show",a:"New York Times Opinion"},
+            {t:"On the Media",a:"WNYC Studios"},
+            {t:"Cautionary Tales with Tim Harford",a:"Pushkin Industries"},
+            {t:"What Trump Can Teach Us About Con Law",a:"Roman Mars"},
+            {t:"Ear Hustle",a:"Ear Hustle & Radiotopia"},
+            {t:"the memory palace",a:"Nate DiMeo"},
+            {t:"Song Exploder",a:"Hrishikesh Hirway"},
+            {t:"Scene on Radio",a:"Kenan Institute for Ethics at Duke University"},
+            {t:"NPR Music",a:"NPR"},
+            {t:"This American Life",a:"This American Life"},
+            {t:"The Treatment",a:"KCRW"},
+            {t:"99% Invisible",a:"Roman Mars"},
+            {t:"WTF with Marc Maron Podcast",a:"Marc Maron"},
+            {t:"Political Gabfest",a:"Slate Podcasts"},
+            {t:"Slate Money",a:"Slate Podcasts"},
+            {t:"Heavyweight",a:"Pushkin Industries"},
+            {t:"The New Yorker Radio Hour",a:"WNYC Studios and The New Yorker"}
+          ];
+
+          function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+          function row(b){
+            return '<div class="shelf-row"><div class="shelf-title">' + esc(b.t) +
+              '</div><div class="shelf-author">' + esc(b.a) + '</div></div>';
+          }
+
+          document.getElementById('podcast-count').textContent = shows.length;
+          document.getElementById('podcast-recent').innerHTML = shows.slice(0, 3).map(row).join('');
+          document.getElementById('podcast-rest').innerHTML = shows.slice(3).map(row).join('');
+
+          var rest = document.getElementById('podcast-rest');
+          var btn = document.getElementById('podcast-toggle');
+          var label = btn.querySelector('.shelf-toggle-label');
+          var arrow = btn.querySelector('.shelf-toggle-arrow');
+          label.textContent = 'Show all ' + shows.length;
+          btn.addEventListener('click', function () {
+            var open = rest.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            label.textContent = open ? 'Show fewer' : 'Show all ' + shows.length;
+            arrow.innerHTML = open ? '&#x2191;' : '&#x2193;';
+          });
+        })();
+      </script>
+    </section>
+
+    <section id="contact">
+      <div class="section-head">
+        <span class="section-num">09</span>
         <h2>Get in touch</h2>
       </div>
       <p>I'm easy to reach. Email is best. If our paths might cross, I'm always up for coffee.</p>
